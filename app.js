@@ -1,12 +1,17 @@
 const express = require('express')
+const hbs = require('hbs');
+
 const app = express()
 const port = 8080;
 
+
+
 // setting view engine from handlebars
 app.set('view engine', 'hbs');
+hbs.registerPartials(__dirname + '/views/partials', err => console.log(err));
 
 // Serve static content
-app.use( express.static('public'));
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
     res.render(`home`, {
@@ -15,15 +20,24 @@ app.get('/', (req, res) => {
     })
 })
 app.get('/generic', (req, res) => {
-    res.sendFile(`${__dirname}/public/generic.html`)
+    res.render(`generic`, {
+        name: 'Fenner González',
+        title: 'Web Server with NodeJs and Express'
+    })
 })
 
 app.get('/elements', (req, res) => {
-    res.sendFile(`${__dirname}/public/elements.html`)
+    res.render(`elements`, {
+        name: 'Fenner González',
+        title: 'Web Server with NodeJs and Express'
+    })
 })
 
 app.get('*', (req, res) => {
-    res.sendFile(`${__dirname}/public/404.html`)
+    res.render(`404`, {
+        name: 'Fenner González',
+        title: 'Web Server with NodeJs and Express'
+    })
 })
 
 app.listen(port, () => {
